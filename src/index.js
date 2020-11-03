@@ -2,12 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import "./style.css";
+import TodoItem from "./todo-item";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
       todo: "",
+      todos: [],
     };
   }
 
@@ -19,6 +21,22 @@ class App extends React.Component {
 
   addTodo = (e) => {
     e.preventDefault();
+  };
+
+  componentDidMount() {
+    fetch("http://localhost:5000/api/get-all-todos")
+      .then((res) => res.json())
+      .then((data) =>
+        this.setState({
+          todos: data,
+        })
+      );
+  }
+
+  renderTodos = () => {
+    return this.state.todos.map((todo) => {
+      return <TodoItem key={todo.id} todo={todo} />;
+    });
   };
 
   render() {
@@ -34,6 +52,7 @@ class App extends React.Component {
           />
           <button type="submit">Add</button>
         </form>
+        {this.renderTodos()}
       </div>
     );
   }
