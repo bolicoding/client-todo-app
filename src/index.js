@@ -21,6 +21,21 @@ class App extends React.Component {
 
   addTodo = (e) => {
     e.preventDefault();
+    fetch("http://localhost:5000/api/create-todo", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        title: this.state.todo,
+        done: false,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState((prevState) => ({
+          todos: [...prevState.todos, data],
+          todo: "",
+        }));
+      });
   };
 
   componentDidMount() {
