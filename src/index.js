@@ -38,6 +38,18 @@ class App extends React.Component {
       });
   };
 
+  deleteTodo = (id) => {
+    fetch(`http://localhost:5000/api/delete-todo/${id}`, {
+      method: "DELETE",
+    }).then(
+      this.setState((prevState) => ({
+        todos: prevState.todos.filter((todo) => {
+          return todo.id !== id;
+        }),
+      }))
+    );
+  };
+
   componentDidMount() {
     fetch("http://localhost:5000/api/get-all-todos")
       .then((res) => res.json())
@@ -50,7 +62,9 @@ class App extends React.Component {
 
   renderTodos = () => {
     return this.state.todos.map((todo) => {
-      return <TodoItem key={todo.id} todo={todo} />;
+      return (
+        <TodoItem key={todo.id} todo={todo} deleteTodo={this.deleteTodo} />
+      );
     });
   };
 

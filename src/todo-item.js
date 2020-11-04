@@ -28,7 +28,11 @@ class TodoItem extends Component {
           checked={this.state.done}
           onChange={this.toggleDone}
         />
+        <p className={this.state.done ? "done" : ""}>{this.props.todo.title}</p>
         <p>{this.props.todo.title}</p>
+        <button onClick={() => this.props.deleteTodo(this.props.todo.id)}>
+          delete
+        </button>
       </div>
     );
   }
