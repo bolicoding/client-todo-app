@@ -9,11 +9,14 @@ class TodoItem extends Component {
   }
 
   toggleDone = () => {
-    fetch(`http://localhost:5000/api/edit-todo/${this.props.todo.id}`, {
-      method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ done: !this.state.done }),
-    }).then(() => {
+    fetch(
+      `https://bm-flask-todo-api.herokuapp.com/api/edit-todo/${this.props.todo.id}`,
+      {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ done: !this.state.done }),
+      }
+    ).then(() => {
       this.setState((prevState) => ({
         done: !prevState.done,
       }));
@@ -29,7 +32,6 @@ class TodoItem extends Component {
           onChange={this.toggleDone}
         />
         <p className={this.state.done ? "done" : ""}>{this.props.todo.title}</p>
-        <p>{this.props.todo.title}</p>
         <button onClick={() => this.props.deleteTodo(this.props.todo.id)}>
           delete
         </button>
